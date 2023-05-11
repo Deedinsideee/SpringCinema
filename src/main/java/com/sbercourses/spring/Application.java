@@ -18,16 +18,16 @@ import java.util.Scanner;
 public class Application implements CommandLineRunner {
 
 
-    private BookDaoBean bookDaoBean;
+    /*private BookDaoBean bookDaoBean;
     private UserDAO userDAO;
     @Autowired
     public void setBookDaoBean(BookDaoBean bookDaoBean)
     {
         this.bookDaoBean=bookDaoBean;
-    }
+    }*/
 
-    @Autowired
-    public void setUserDAO(UserDAO userDAO){this.userDAO=userDAO;}
+    /*@Autowired
+    public void setUserDAO(UserDAO userDAO){this.userDAO=userDAO;}*/
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }
@@ -57,7 +57,7 @@ public class Application implements CommandLineRunner {
         User a = new User("4444","15.08.12","+7777770","uuuu@mgail/com",0);
         userDAO.AddUser(a);
 */
-        userDAO.FindByPhone_Number("+7904985445");
+       /*userDAO.FindByPhone_Number("+7904985445");*/
 
 
     }
