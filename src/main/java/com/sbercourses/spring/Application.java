@@ -34,6 +34,9 @@ public class Application implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+        System.out.println(" http://localhost:8081/swagger-ui/index.html ");
+
+
         //1 JDBC (связанный)
      /*   BookDaoJDBC bookDaoJDBC = new BookDaoJDBC();
         bookDaoJDBC.findBoolByID(1);*/
