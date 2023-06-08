@@ -1,7 +1,8 @@
+/*
 package com.sbercourses.spring.dbexample.dao;
 
 import com.sbercourses.spring.dbexample.model.Book;
-import com.sbercourses.spring.dbexample.model.User;
+
 import org.springframework.stereotype.Component;
 
 import java.sql.Connection;
@@ -80,3 +81,4 @@ public class UserDAO {
 
     }
 }
+*/

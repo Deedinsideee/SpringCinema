@@ -3,8 +3,11 @@ package com.sbercourses.spring.Cinema.Controllers;
 
 import com.sbercourses.spring.Cinema.Model.Role;
 import com.sbercourses.spring.Cinema.Model.User;
+import com.sbercourses.spring.Cinema.dto.RoleDTO;
 import com.sbercourses.spring.Cinema.repository.GenericRepository;
 import com.sbercourses.spring.Cinema.repository.UserRepository;
+import com.sbercourses.spring.Cinema.service.GenericService;
+import com.sbercourses.spring.Cinema.service.RoleService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.crossstore.ChangeSetPersister;
@@ -22,12 +25,10 @@ import java.io.Serializable;
 @RestController
 @RequestMapping("/role")
 @Tag(name="Роли",description = "Контроллеры для работы с ролями")
-public class RoleController  extends GenericController<Role> {
+public class RoleController extends GenericController<Role, RoleDTO>
+{
 
-    public RoleController(GenericRepository<Role> genericRepository) {
-        super(genericRepository);
-
+    protected RoleController(RoleService roleService) {
+        super(roleService);
     }
-
-
 }

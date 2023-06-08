@@ -2,9 +2,9 @@ package com.sbercourses.spring;
 
 import com.sbercourses.spring.dbexample.dao.BookDaoBean;
 import com.sbercourses.spring.dbexample.MyDBConfigContext;
-import com.sbercourses.spring.dbexample.dao.UserDAO;
+
 import com.sbercourses.spring.dbexample.model.Book;
-import com.sbercourses.spring.dbexample.model.User;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;

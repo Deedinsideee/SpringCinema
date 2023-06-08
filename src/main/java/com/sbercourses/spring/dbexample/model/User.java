@@ -1,3 +1,4 @@
+/*
 package com.sbercourses.spring.dbexample.model;
 
 import lombok.*;
@@ -27,3 +28,4 @@ public class User {
     private Integer Idknigi;
 
 }
+*/
