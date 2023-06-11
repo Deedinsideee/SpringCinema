@@ -1,14 +1,10 @@
-package com.sbercourses.spring.Cinema.Controllers;
+package com.sbercourses.spring.Cinema.Controllers.rest;
 
 
 import com.sbercourses.spring.Cinema.Model.Order;
 import com.sbercourses.spring.Cinema.dto.OrderDTO;
 import com.sbercourses.spring.Cinema.service.OrderService;
-import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

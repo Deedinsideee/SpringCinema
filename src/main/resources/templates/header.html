@@ -1,0 +1,32 @@
+<div xmlns:th="http://www.thymeleaf.org"
+     th:fragment="header">
+    <nav class="navbar navbar-expand-lg" style="background-color: #2eaaea">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/" style="color: #ffffff">Онлайн Кинотеатр</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/films">Фильмы</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/directors">Режиссёры</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/my/films">Мои фильмы</a>
+                    </li>
+                </ul>
+                <div>
+                    <a class="nav-link active" style="float: right" href="/profile">Профиль</a>
+                </div>
+                <form class="d-flex">
+                    <a href="/logout" class="btn btn-primary" role="button" aria-disabled="true">Выйти</a>
+                </form>
+            </div>
+        </div>
+    </nav>
+</div>

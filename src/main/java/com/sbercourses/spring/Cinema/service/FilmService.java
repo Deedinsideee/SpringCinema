@@ -11,18 +11,21 @@ import org.springframework.stereotype.Service;
 import org.webjars.NotFoundException;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class FilmService extends GenericService<Film, FilmDTO>{
 
+    private final DirectorService directorService;
     private final FilmRepository filmRepository;
     private final DirectorRepository directorRepository ;
 
 
     public FilmService(
             FilmMapper filmMapper,
-            FilmRepository filmRepository, DirectorRepository directorRepository) {
+            DirectorService directorService, FilmRepository filmRepository, DirectorRepository directorRepository) {
         super( filmRepository,filmMapper);
+        this.directorService = directorService;
         this.filmRepository = filmRepository;
         this.directorRepository = directorRepository;
     }
@@ -30,13 +33,13 @@ public class FilmService extends GenericService<Film, FilmDTO>{
     public FilmDTO addDirector(Long filmId,
                                Long directorId)
     {
-       FilmDTO filmDTO = getOne(filmId);
-       Directors directors = directorRepository.findById(directorId).orElseThrow(()->new NotFoundException("Директор не найден"));
-       filmDTO.getDirectors_id().add(directors.getId());
-       update(filmDTO);
-       return filmDTO;
+        FilmDTO film = getOne(filmId);
+       directorService.addFilm(filmId,directorId);
+       return film;
 
     }
+
+
 
 
     public FilmDTO getListOfFilms(Long id)

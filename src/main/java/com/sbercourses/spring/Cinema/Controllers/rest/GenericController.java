@@ -1,4 +1,4 @@
-package com.sbercourses.spring.Cinema.Controllers;
+package com.sbercourses.spring.Cinema.Controllers.rest;
 
 import com.sbercourses.spring.Cinema.Model.GenericModel;
 import com.sbercourses.spring.Cinema.Model.User;

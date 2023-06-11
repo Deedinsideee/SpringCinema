@@ -20,4 +20,10 @@ public class FilmDTO extends GenericDTO {
     private BigInteger county;
     private Genre genre;
     List<Long> directors_id;
+    private String directors;
+
+
+
+
+
 }

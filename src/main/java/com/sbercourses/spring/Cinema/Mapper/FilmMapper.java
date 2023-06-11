@@ -50,7 +50,13 @@ public class FilmMapper extends GenericMapper<Film, FilmDTO> {
 
     @Override
     protected void mapSpecificFields(Film source, FilmDTO destination) {
+
+        destination.setDirectors(String.join(", ", source.getDirectors()
+                .stream()
+                .map(Directors::getDirectors_fio)
+                .collect(Collectors.toList())));
         destination.setDirectors_id(getIds(source));
+
     }
 
 
