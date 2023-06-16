@@ -27,6 +27,6 @@ public class UserDTO extends GenericDTO {
     private String addres;
     private String email;
     private LocalDate createdWhen;
-    private Long role_id;
+    private RoleDTO role_id;
 
 }

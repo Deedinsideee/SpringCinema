@@ -32,18 +32,15 @@ public class UserMapper extends GenericMapper<User, UserDTO> {
 
     @Override
     protected void setupMapper() {
-        modelMapper.createTypeMap(User.class,UserDTO.class)
+     /*   modelMapper.createTypeMap(User.class,UserDTO.class)
                 .addMappings(m->m.skip(UserDTO::setRole_id)).setPostConverter(toDTOConverter());
 
         modelMapper.createTypeMap(UserDTO.class,User.class)
-                .addMappings(m->m.skip(User::setRole_id)).setPostConverter(toEntityConverter());
+                .addMappings(m->m.skip(User::setRole_id)).setPostConverter(toEntityConverter());*/
     }
     @Override
     protected void mapSpecificFields(UserDTO source, User destination) {
-        if(!Objects.isNull(source.getRole_id()))
-        {
-            destination.setRole_id(roleRepository.findById(source.getRole_id()).orElseThrow(() -> new NotFoundException("Книги не найдено")));
-        }
+
 
     }
 
@@ -53,7 +50,7 @@ public class UserMapper extends GenericMapper<User, UserDTO> {
         {
 
 
-            destination.setRole_id(source.getRole_id().getId());
+
 
         }
     }

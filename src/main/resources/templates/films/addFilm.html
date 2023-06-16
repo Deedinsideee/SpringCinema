@@ -13,19 +13,19 @@
         <div class="mb-3">
             <label for="title" class="form-label">Название</label>
             <!--            Название поля инпута должно строго соответствовать названию поля класса (DTO)-->
-            <input name="title" type="text" class="form-control" id="title">
+            <input name="title" type="text" class="form-control" id="title" required>
         </div>
         <div class="mb-3">
             <label for="country" class="form-label">Страна производства</label>
-            <input name="county" type="text" class="form-control" id="country">
+            <input name="county" type="text" class="form-control" id="country" required>
         </div>
         <div class="mb-3">
-            <label for="year" class="form-label">Год выхода</label>
-            <input name="premier_year" type="number" class="form-control" id="year">
+            <label for="date" class="form-label">Год выхода</label>
+            <input name="premier_year" type="date" class="form-control" id="date" required>
         </div>
         <div class="mb-3">
             <label for="genre" class="form-label">Жанр</label>
-            <select class="form-select" name="genre" id="genre">
+            <select class="form-select" name="genre" id="genre" required >
                 <option selected>Выберете жанр из списка:</option>
                 <option th:each="genre : ${T(com.sbercourses.spring.Cinema.Model.Genre).values()}"
                         th:value="${genre}" th:text="${genre.getGenreTextDisplay()}"></option>

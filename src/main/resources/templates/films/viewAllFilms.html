@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{layout}">
 <head>
     <meta charset="UTF-8">
@@ -14,7 +15,7 @@
 <body>
 <div layout:fragment="content">
     <h1>Все фильмы кинотеатра</h1>
-    <div class="row">
+    <div class="row" sec:authorize="isAuthenticated() && (hasRole('ADMIN') )">
         <div class="col">
             <a href="films/add"
                class="btn btn-secondary"
@@ -23,7 +24,7 @@
                aria-disabled="true">Добавить фильм
             </a>
         </div>
-        <div class="col">
+        <div class="col" sec:authorize="isAuthenticated() && (hasRole('ADMIN') )">
             <a href="films/addDir"
                class="btn btn-secondary"
                role="button"

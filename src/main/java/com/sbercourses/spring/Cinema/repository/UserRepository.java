@@ -4,4 +4,10 @@ import com.sbercourses.spring.Cinema.Model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UserRepository extends GenericRepository<User> {
+
+    User findUserByLogin(String login);
+
+    User findUserByEmail (String email);
+
+
 }

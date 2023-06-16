@@ -13,8 +13,8 @@ import java.util.List;
 @Service
 public abstract class GenericService<E extends GenericModel,D extends GenericDTO> {
 
-    private final GenericRepository<E> repository;
-    private final GenericMapper<E,D> mapper;
+    protected final GenericRepository<E> repository;
+    protected final GenericMapper<E,D> mapper;
 
     @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     public GenericService(GenericRepository<E> repository, GenericMapper<E, D> mapper) {

@@ -24,13 +24,13 @@ public class UserController extends GenericController<User, UserDTO>
         super(userService);
     }
 
-    @Operation(description = "Добавить роль к пользователю")
+    /*@Operation(description = "Добавить роль к пользователю")
     @RequestMapping (value = "/addRoletoUser",method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserDTO> addRole (@RequestParam (value = "roleId") Long roleId,
                                             @RequestParam (value = "userId") Long userId)
     {
         return ResponseEntity.status(HttpStatus.OK).body(((UserService)service).addRole(userId,roleId));
-    }
+    }*/
 
     @Operation(description = "Просмотреть фильмы пользователя")
     @RequestMapping (value = "/showFilms",method = RequestMethod.GET,produces = MediaType.APPLICATION_JSON_VALUE)
