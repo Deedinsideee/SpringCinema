@@ -1,14 +1,19 @@
 package com.sbercourses.spring.Cinema.service.userdetails;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 public class CustomUserDetail implements UserDetails {
 
     private final String password;
-    private final String login;
+    private final String username;
     private final Collection<? extends GrantedAuthority> authorities;
     private final Integer id;
 
@@ -21,7 +26,7 @@ public class CustomUserDetail implements UserDetails {
 
     public CustomUserDetail(String password, String login, Collection<? extends GrantedAuthority> authorities, Integer id) {
         this.password = password;
-        this.login = login;
+        this.username = login;
         this.authorities = authorities;
         this.id = id;
         this.AccountNotLocked = true;
@@ -42,7 +47,7 @@ public class CustomUserDetail implements UserDetails {
 
     @Override
     public String getUsername() {
-        return login;
+        return username;
     }
 
     @Override
@@ -68,4 +73,26 @@ public class CustomUserDetail implements UserDetails {
     public Integer getId() {
         return id;
     }
+
+    @Override
+    public String toString() {
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            return mapper.writeValueAsString(getFieldsToInclude());
+        }catch (JsonProcessingException e)
+        {
+            e.printStackTrace();
+        }
+        return super.toString();
+    }
+
+    private Object getFieldsToInclude(){
+        Map<String, Object> fields = new HashMap<>();
+        fields.put("user_id", id);
+        fields.put("username", username);
+        fields.put("user_role", authorities);
+        fields.put("password", password);
+        return fields;
+    }
+
 }

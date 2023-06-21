@@ -7,6 +7,10 @@ import com.sbercourses.spring.Cinema.dto.FilmDTO;
 import com.sbercourses.spring.Cinema.dto.RoleDTO;
 import com.sbercourses.spring.Cinema.dto.UserDTO;
 import com.sbercourses.spring.Cinema.repository.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.webjars.NotFoundException;
@@ -69,6 +73,14 @@ public class UserService extends GenericService<User,UserDTO>{
 
     }
 
+    public Page<UserDTO> getAllUsers(Pageable pageable)
+    {
+        Page<User> users = repository.findAll(pageable);
+        List<UserDTO> res = mapper.toDTOs(users.getContent());
+        return new PageImpl<>(res, pageable, users.getTotalElements());
+    }
+
+
     public UserDTO getUserByLogin(final String login)
     {
 
@@ -80,7 +92,9 @@ public class UserService extends GenericService<User,UserDTO>{
         return mapper.toDTO(((UserRepository) repository).findUserByEmail(email));
     }
 
-
+    public boolean checkPassword(String password, UserDetails foundUser) {
+        return bCryptPasswordEncoder.matches(password, foundUser.getPassword());
+    }
 
 
 

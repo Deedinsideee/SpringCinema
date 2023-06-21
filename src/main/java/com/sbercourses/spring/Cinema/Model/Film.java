@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigInteger;
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -20,10 +21,14 @@ public class Film extends GenericModel {
 
 
     @Column(name = "premier_year",nullable = false)
-    private BigInteger premier_year;
+    private LocalDate premier_year;
 
     @Column(name = "country",nullable = false)
-    private BigInteger county;
+    private String county;
+
+    @Column(name = "description")
+    private String description;
+
 
     @Column(name = "genre",nullable = false)
     @Enumerated()

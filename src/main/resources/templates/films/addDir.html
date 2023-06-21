@@ -23,7 +23,7 @@
       <select class="form-select" name="director" id="genre">
         <option selected>Выберете участника из списка:</option>
         <option th:each="director  : ${directors}"
-                th:value="${director.getId()}" th:text="${director.getDirectors_fio()}"></option>
+                th:value="${director.getId()}" th:text="${director.getDirfio()}"></option>
       </select>
     </div>
     <button type="submit" class="btn btn-primary" onclick="validateForm()">Добавить</button>

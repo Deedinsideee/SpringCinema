@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ru"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Изменить автора</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <h3 class="mt-3 mb-3" th:text="'Обновить фильм ' + ${film.getTitle()}"></h3>
+    <form class="needs-validation" novalidate style="max-width: 50vw" method="POST" th:action="@{/films/update}" th:object="${filmForm}">
+        <input type="hidden" name="id"
+               th:value="${film.getId()}">
+        <div class="mt-3 row g-2">
+            <div class="col-md">
+                <div class="form-floating">
+                    <!--Название поля инпута должно строго соответствовать названию поля класса (DTO)-->
+                    <input name="title" th:value="${film.getTitle()}" type="text" class="form-control" id="title" placeholder="ФИО автора" required>
+                    <label for="title">Название</label>
+                    <div class="invalid-feedback">Обязательное поле для заполнения</div>
+                </div>
+            </div>
+        </div>
+        <div class="mt-3 row g-2">
+
+            <div class="col-md">
+                <div class="form-floating">
+                    <input name="county" th:value="${film.getCounty()}" type="text" class="form-control" id="premier_year" placeholder="ФИО автора" required>
+                  <!--  <textarea name="premier_year" th:value="${film.getCounty()}"  type="date" class="form-control" id="premier_year"
+                              placeholder="Год выхода"></textarea>-->
+                    <label for="premier_year">Страна производства</label>
+                </div>
+            </div>
+            <div class="col-md">
+                <div class="form-floating">
+                    <input name="premier_year" th:value="${film.getPremier_year()}" type="date" class="form-control" id="date" placeholder="Дата рождения" required>
+                    <label for="date">Дата рождения</label>
+                    <div class="invalid-feedback">Обязательное поле для заполнения</div>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="genre" class="form-label">Жанр</label>
+                <select class="form-select" name="genre" id="genre" required>
+                    <option selected>Выберете жанр из списка:</option>
+                    <option th:each="genre : ${T(com.sbercourses.spring.Cinema.Model.Genre).values()}"
+                            th:value="${genre}" th:text="${genre.getGenreTextDisplay()}"
+                            th:selected="${genre==film.getGenre()}"
+                    ></option>
+                </select>
+            </div>
+
+            <!--<div class="mb-3">
+                <label for="genre" class="form-label">Жанр</label>
+                <select class="form-select" name="genre" id="genre" th:field="${film.genre}" required>
+                    <option selected>Выберете жанр из списка:</option>
+                    <option th:each="genre : ${T(com.sbercourses.spring.Cinema.Model.Genre).values()}"
+                            th:value="${genre}" th:text="${genre.getGenreTextDisplay()}"></option>
+                </select>
+            </div>-->
+
+            <div class="col-md">
+                <div class="form-floating">
+                    <textarea name="description" th:value="${film.getDescription()}" th:text="${film.getDescription()}" type="text" class="form-control" id="description"
+                              placeholder="Описание"></textarea>
+                    <label for="description">Описание</label>
+                </div>
+            </div>
+        <div class="mt-3 row g-2">
+            <button type="submit" class="btn btn-primary" onclick="validateForm()">Обновить</button>
+            <button type="button" class="btn btn-secondary" onclick="window.history.back()">Назад</button>
+        </div>
+    </form>
+</div>
+</body>
+</html>

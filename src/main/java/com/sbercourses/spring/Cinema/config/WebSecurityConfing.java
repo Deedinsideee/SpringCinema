@@ -14,6 +14,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import java.util.List;
 
+import static com.sbercourses.spring.Cinema.constants.SecurityConstants.*;
 import static com.sbercourses.spring.Cinema.constants.UserRolesConstants.ADMIN;
 import static com.sbercourses.spring.Cinema.constants.UserRolesConstants.REZ;
 
@@ -30,29 +31,7 @@ public class WebSecurityConfing {
         this.customUserDetailService = customUserDetailService;
     }
 
-    private final List<String> Resoures_White_List = List.of(
-            "/resources/**",
-            "/static/**",
-            "/js/**",
-            "/css/**",
-            "/",
-            "/swagger-ui/**"
-    );
-    private final List<String> Film_White_List = List.of("/film");
-    private final List<String> Films_Permisions_List=List.of(
-           "/films/add",
-            "/films/update",
-            "/films/delete",
-            "/films/addDir"
-    );
 
-    private final List<String> User_White_List=List.of(
-            "/login",
-            "/users/registration",
-            "/users/remember-password/",
-            "/films",
-            "/directors"
-    );
 
 
 
@@ -90,9 +69,8 @@ public class WebSecurityConfing {
         return httpSecurity.build();
     }
     @Autowired
-    protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception{
+    protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(customUserDetailService).passwordEncoder(bCryptPasswordEncoder);
-
     }
 
 }

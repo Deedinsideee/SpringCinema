@@ -1,7 +1,7 @@
 <div xmlns:th="http://www.thymeleaf.org"
      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
      th:fragment="header">
-    <nav class="navbar navbar-expand-lg" style="background-color: #2eaaea">
+    <nav class="navbar navbar-expand-lg" style="background-color: #e896a9">
         <div class="container-fluid">
             <a class="navbar-brand" href="/" style="color: #ffffff">Онлайн Кинотеатр</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -17,11 +17,11 @@
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="/directors">Режиссёры</a>
                     </li>
-                    <li class="nav-item" sec:authorize="isAuthenticated() && (hasRole('USER'))">
-                        <a class="nav-link active" aria-current="page" href="/my/films">Мои фильмы</a>
+                    <li class="nav-item" sec:authorize="isAuthenticated() && (!hasRole('ADMIN'))">
+                        <a class="nav-link active" aria-current="page" th:href="'/rent/user-films/'+ ${#authentication.getPrincipal().getId()}">Мои фильмы</a>
                     </li>
                     <li sec:authorize="isAuthenticated() && (hasRole('ADMIN') )" >
-                        <a class="nav-link active" aria-current="page" href="/users/list">Пользователи</a>
+                        <a class="nav-link active" aria-current="page" href="/users/listOfUsers">Пользователи</a>
                     </li>
                 </ul>
                 <div sec:authorize="isAuthenticated() && !hasRole('ADMIN')">
@@ -31,8 +31,8 @@
                 <form class="d-flex" sec:authorize="!isAuthenticated()">
                     <a href="/login" class="btn btn-primary" role="button" aria-disabled="true">Войти</a>
                 </form>
-                <form class="d-flex" sec:authorize="isAuthenticated()">
-                    <a href="/logout" class="btn btn-primary" role="button" aria-disabled="true">Выйти</a>
+                <form class="d-flex"  sec:authorize="isAuthenticated()">
+                    <a href="/logout" class="btn btn-primary"  role="button" aria-disabled="true">Выйти</a>
                 </form>
             </div>
         </div>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layout}"
+      lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Просмотр профиля</title>
+</head>
+<body>
+<form layout:fragment="content">
+    <div>
+        <div class="d-flex align-items-center" sec:authorize="!hasRole('ADMIN')">
+            <h3 th:text="'Информация о пользователе: ' + ${user.getLogin()}"></h3>
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end ms-auto">
+                <a  class="btn btn-primary" th:href="'/users/edit/' + ${user.getId()}">Изменить профиль</a>
+                <button type="button" class="btn btn-secondary" onclick="window.history.back()">Назад</button>
+            </div>
+        </div>
+        <!--<h3 th:text="'Информация о пользователе: ' + ${user.getLogin()}"></h3>
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <a sec:authorize="!hasRole('ADMIN')" class="btn btn-primary"
+               >Арендовать фильм</a>
+
+        </div>-->
+        <form class="row g-1">
+            <div class="mb-2 row">
+                <label for="login" class="col-sm-2 col-form-label no-border">Логин:</label>
+                <div class="col-sm-10">
+                    <p th:text="${user.getLogin()}" type="text" readonly class="form-control-plaintext" id="login">
+                </div>
+            </div>
+            <div class="mb-2 row">
+                <label for="fio" class="col-sm-2 col-form-label">ФИО:</label>
+                <div class="col-sm-10">
+                    <p th:text="${user.getFirstName() +' '+ user.getMiddleName() + ' '+ user.getLastName()} " class="form-control-plaintext" id="fio">
+                </div>
+            </div>
+            <div class="mb-2 row">
+                <label for="phone" class="col-sm-2 col-form-label">Номер телефона:</label>
+                <div class="col-sm-10">
+                    <p th:text="${user.getPhone()}" class="form-control-plaintext" id="phone">
+                </div>
+            </div>
+            <div class="mb-2 row">
+                <label for="email" class="col-sm-2 col-form-label">Email:</label>
+                <div class="col-sm-10">
+                    <p th:text="${user.getEmail()}" class="form-control-plaintext" id="email">
+                </div>
+            </div>
+            <div class="mb-2 row">
+                <label for="addres" class="col-sm-2 col-form-label">Адресс:</label>
+                <div class="col-sm-10">
+                    <p th:text="${user.getAddres()}" class="form-control-plaintext" id="addres">
+                </div>
+            </div>
+            <div class="mb-2 row">
+                <label for="BirthDate" class="col-sm-2 col-form-label">Дата рождения:</label>
+                <div class="col-sm-10">
+                    <p th:text="${user.getBirthDate()}" class="form-control-plaintext" id="BirthDate">
+                </div>
+            </div>
+            <div class="mb-2 row">
+                <label for="CreatedWhem" class="col-sm-2 col-form-label">Дата создания профиля:</label>
+                <div class="col-sm-10">
+                    <p th:text="${user.getCreatedWhen()}" class="form-control-plaintext" id="CreatedWhem">
+                </div>
+            </div>
+        </form>
+
+        <hr class="hr"/>
+        <div class="mt-2" sec:authorize="hasRole('ADMIN')">
+            <button type="button" class="btn btn-secondary" onclick="window.history.back()">Назад</button>
+        </div>
+
+
+
+    </div>
+</form>
+</body>
+</html>

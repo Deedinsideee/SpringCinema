@@ -10,6 +10,7 @@ import lombok.Setter;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -17,8 +18,11 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class OrderDTO extends GenericDTO{
     private LocalDate rent_data;
-    private LocalDate rent_period;
+    private LocalDate return_date;
+    private Boolean returned;
     private Boolean purchase;
-    private Long film_id;
-    private Long user_id;
+    private Integer rent_period;
+    private Long filmId;
+    private Long userId;
+    private FilmDTO filmDTO;
 }

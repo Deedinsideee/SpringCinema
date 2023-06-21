@@ -3,10 +3,7 @@ package com.sbercourses.spring.Cinema.dto;
 
 import com.sbercourses.spring.Cinema.Model.Role;
 import com.sbercourses.spring.Cinema.Model.User;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -14,6 +11,7 @@ import java.util.List;
 
 @ToString
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 public class UserDTO extends GenericDTO {

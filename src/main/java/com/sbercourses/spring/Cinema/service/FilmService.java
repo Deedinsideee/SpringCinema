@@ -3,32 +3,65 @@ package com.sbercourses.spring.Cinema.service;
 import com.sbercourses.spring.Cinema.Mapper.FilmMapper;
 import com.sbercourses.spring.Cinema.Model.Directors;
 import com.sbercourses.spring.Cinema.Model.Film;
-import com.sbercourses.spring.Cinema.dto.DirectorDTO;
+import com.sbercourses.spring.Cinema.Model.Order;
 import com.sbercourses.spring.Cinema.dto.FilmDTO;
+import com.sbercourses.spring.Cinema.dto.FilmSearchDTO;
 import com.sbercourses.spring.Cinema.repository.DirectorRepository;
 import com.sbercourses.spring.Cinema.repository.FilmRepository;
+import com.sbercourses.spring.Cinema.repository.OrderRepository;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.webjars.NotFoundException;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class FilmService extends GenericService<Film, FilmDTO>{
 
     private final DirectorService directorService;
     private final FilmRepository filmRepository;
     private final DirectorRepository directorRepository ;
-
+    private final OrderRepository orderRepository;
 
     public FilmService(
             FilmMapper filmMapper,
-            DirectorService directorService, FilmRepository filmRepository, DirectorRepository directorRepository) {
+            DirectorService directorService, FilmRepository filmRepository, DirectorRepository directorRepository, OrderRepository orderRepository) {
         super( filmRepository,filmMapper);
         this.directorService = directorService;
         this.filmRepository = filmRepository;
         this.directorRepository = directorRepository;
+        this.orderRepository = orderRepository;
+
     }
+
+
+    public Page<FilmDTO> getAllFilms(Pageable pageable)
+    {
+        Page<Film> films = repository.findAll(pageable);
+        List<FilmDTO> result = mapper.toDTOs(films.getContent());
+        return new PageImpl<>(result, pageable, films.getTotalElements());
+    }
+
+    public Page<FilmDTO> search(FilmSearchDTO filmSearchDTO, Pageable pageable)
+    {
+       String genre = filmSearchDTO.getGenre()!=null
+               ? String.valueOf(filmSearchDTO.getGenre().ordinal())
+               :null;
+       Page<Film> filmspag = filmRepository.searchBooks(
+               genre,
+               filmSearchDTO.getTitle(),
+               filmSearchDTO.getDirFIO(),
+               pageable
+       );
+       List<FilmDTO> res = mapper.toDTOs(filmspag.getContent());
+       return new PageImpl<>(res, pageable, filmspag.getTotalElements());
+    }
+
+
 
     public FilmDTO addDirector(Long filmId,
                                Long directorId)
@@ -42,6 +75,15 @@ public class FilmService extends GenericService<Film, FilmDTO>{
 
 
 
+    public Page<FilmDTO> searchFilm(final String title,
+                                         Pageable pageable) {
+        Page<Film> films = ((FilmRepository)repository).findAllByTitle(title, pageable);
+        List<FilmDTO> result = mapper.toDTOs(films.getContent());
+        return new PageImpl<>(result, pageable, films.getTotalElements());
+    }
+
+
+
     public FilmDTO getListOfFilms(Long id)
     {
 
@@ -49,6 +91,19 @@ public class FilmService extends GenericService<Film, FilmDTO>{
 
     }
 
+    public void delete(final Long id)
+    {
+        Film a = repository.getOne(id);
+        List<Directors> directors = directorRepository.findAll();
+        List<Order> orders= orderRepository.getOrdersByFilmIdId(id);
+            directors.forEach(director -> {
+                List<Film> films = director.getFilms();
+                films.removeIf(film -> film.getId() == a.getId());
+            });
+            orderRepository.deleteAll(orders);
+            directorRepository.saveAll(directors);
+            repository.deleteById(id);
+    }
 
 
 

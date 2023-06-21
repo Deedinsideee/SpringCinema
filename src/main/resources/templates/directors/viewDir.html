@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layout}"
+      lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Просмотр участника</title>
+</head>
+<body>
+<form layout:fragment="content">
+  <div>
+    <h3 th:text="'Информация о участнике: ' + ${director.getId()}"></h3>
+    <form class="row g-1">
+      <div class="mb-2 row">
+        <label for="filmTitle" class="col-sm-2 col-form-label no-border">ФИО:</label>
+        <div class="col-sm-10">
+          <p th:text="${director.getDirfio()}" type="text" readonly class="form-control-plaintext" id="filmTitle">
+        </div>
+      </div>
+      <div class="mb-2 row">
+        <label for="genre" class="col-sm-2 col-form-label">Позиция:</label>
+        <div class="col-sm-10">
+          <p th:text="${director.getPosition()}" class="form-control-plaintext" id="genre">
+        </div>
+      </div>
+      <div class="mb-2 row">
+        <label for="county" class="col-sm-2 col-form-label">Дата рождения:</label>
+        <div class="col-sm-10">
+          <p th:text="${director.getBirthDate()}" class="form-control-plaintext" id="county">
+        </div>
+      </div>
+      <div class="mb-2 row">
+        <label for="desc" class="col-sm-2 col-form-label">Описание:</label>
+        <div class="col-sm-10">
+          <p th:text="${director.getDescription()}" class="form-control-plaintext" id="desc">
+        </div>
+      </div>
+    </form>
+  </div>
+</form>
+</body>
+</html>

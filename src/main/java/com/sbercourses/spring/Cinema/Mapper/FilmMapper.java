@@ -3,9 +3,7 @@ package com.sbercourses.spring.Cinema.Mapper;
 import com.sbercourses.spring.Cinema.Model.Directors;
 import com.sbercourses.spring.Cinema.Model.Film;
 import com.sbercourses.spring.Cinema.Model.GenericModel;
-import com.sbercourses.spring.Cinema.dto.DirectorDTO;
 import com.sbercourses.spring.Cinema.dto.FilmDTO;
-import com.sbercourses.spring.Cinema.dto.GenericDTO;
 import com.sbercourses.spring.Cinema.repository.DirectorRepository;
 import com.sbercourses.spring.Cinema.repository.FilmRepository;
 import org.modelmapper.ModelMapper;
@@ -18,11 +16,13 @@ import java.util.stream.Collectors;
 @Component
 public class FilmMapper extends GenericMapper<Film, FilmDTO> {
 
+    private final DirectorMapper directorMapper;
     private final DirectorRepository directorRepository;
     private final FilmRepository filmRepository;
 
-    public FilmMapper(ModelMapper modelMapper, DirectorRepository directorRepository, FilmRepository filmRepository) {
+    public FilmMapper(ModelMapper modelMapper, DirectorMapper directorMapper, DirectorRepository directorRepository, FilmRepository filmRepository) {
         super(Film.class, FilmDTO.class, modelMapper);
+        this.directorMapper = directorMapper;
         this.directorRepository = directorRepository;
         this.filmRepository = filmRepository;
     }
@@ -30,7 +30,13 @@ public class FilmMapper extends GenericMapper<Film, FilmDTO> {
     @Override
     protected void setupMapper() {
         modelMapper.createTypeMap(Film.class,FilmDTO.class)
-                .addMappings(m->m.skip(FilmDTO::setDirectors_id)).setPostConverter(toDTOConverter());
+                .addMappings(m->
+                {
+                    m.skip(FilmDTO::setDirectors_id);
+                    m.skip(FilmDTO::setDirInfo);
+                    m.skip(FilmDTO::setCanBeRent);
+                })
+                       .setPostConverter(toDTOConverter());
 
         modelMapper.createTypeMap(FilmDTO.class,Film.class)
                 .addMappings(m->m.skip(Film::setDirectors)).setPostConverter(toEntityConverter());
@@ -53,9 +59,10 @@ public class FilmMapper extends GenericMapper<Film, FilmDTO> {
 
         destination.setDirectors(String.join(", ", source.getDirectors()
                 .stream()
-                .map(Directors::getDirectors_fio)
+                .map(Directors::getDirfio)
                 .collect(Collectors.toList())));
         destination.setDirectors_id(getIds(source));
+        destination.setDirInfo(directorMapper.toDTOs(source.getDirectors()));
 
     }
 

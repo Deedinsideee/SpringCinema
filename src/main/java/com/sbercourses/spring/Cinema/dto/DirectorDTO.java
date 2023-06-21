@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,8 +21,10 @@ import java.util.List;
 public class DirectorDTO extends GenericDTO {
 
 
-    private String directors_fio;
+    private String dirfio;
     private String position;
+    private LocalDate birthDate;
+    private String description;
     List<Long> films_id;
 
 

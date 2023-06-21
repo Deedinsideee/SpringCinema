@@ -4,24 +4,53 @@
       layout:decorate="~{layout}">
 <head>
     <meta charset="UTF-8">
-    <title>Добавить Фильм</title>
+    <title>Добавить автора</title>
 </head>
 <body>
 <div layout:fragment="content">
-    <h3 class="mt-3 mb-3">Добавить участника</h3>
-    <form style="max-width: 50vw" method="POST" th:action="@{/directors/add}" th:object="${dirForm}">
-        <div class="mb-3">
-            <label for="directors_fio" class="form-label">ФИО</label>
-            <!--            Название поля инпута должно строго соответствовать названию поля класса (DTO)-->
-            <input name="directors_fio" type="text" class="form-control" id="directors_fio">
+    <h3 class="mt-3 mb-3">Добавить автора</h3>
+    <form  class="needs-validation" novalidate style="max-width: 50vw" method="POST" th:action="@{/directors/add}" th:object="${dirForm}">
+        <div class="mt-3 row g-2">
+            <div class="col-md">
+                <div class="form-floating">
+                    <!--Название поля инпута должно строго соответствовать названию поля класса (DTO)-->
+                    <input name="dirfio" type="text" class="form-control" id="dirfio" placeholder="ФИО автора" required>
+                    <label for="dirfio">ФИО автора</label>
+                    <div class="invalid-feedback">Обязательное поле для заполнения</div>
+                </div>
+            </div>
+            <div class="col-md">
+                <div class="form-floating">
+                    <input name="position" type="text" class="form-control" id="position" placeholder="Дата рождения" required>
+                    <label for="position">Позиция</label>
+                    <div class="invalid-feedback">Обязательное поле для заполнения</div>
+                </div>
+            </div>
         </div>
-        <div class="mb-3">
-            <label for="position" class="form-label">Позиция</label>
-            <input name="position" type="text" class="form-control" id="position">
+
+
+        <div class="mt-3 row g-2">
+            <div class="col-md">
+                <div class="form-floating">
+                    <input name="birthDate" type="date" class="form-control" id="date" placeholder="Дата рождения" required>
+                    <label for="date">Дата рождения</label>
+                    <div class="invalid-feedback">Обязательное поле для заполнения</div>
+                </div>
+            </div>
+            <div class="col-md">
+                <div class="form-floating">
+                    <textarea name="description" type="text" class="form-control" id="description" placeholder="Описание"></textarea>
+                    <label for="description">Описание</label>
+                </div>
+            </div>
         </div>
-        <button type="submit" class="btn btn-primary" onclick="validateForm()">Добавить</button>
-        <button type="button" class="btn btn-secondary" onclick="window.history.back()">Назад</button>
+        <div class="mt-3 row g-2">
+            <button type="submit" class="btn btn-primary" onclick="validateForm()">Добавить</button>
+            <button type="button" class="btn btn-secondary" onclick="window.history.back()">Назад</button>
+        </div>
+
     </form>
 </div>
+
 </body>
 </html>

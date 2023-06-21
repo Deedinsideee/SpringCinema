@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -13,11 +14,17 @@ import java.util.List;
 @SequenceGenerator(name = "default_generator", sequenceName = "directors_sequence",allocationSize = 1)
 public class Directors extends GenericModel {
 
-    @Column(name = "directors_fio",nullable = false)
-    private String directors_fio;
+    @Column(name = "dirfio",nullable = false)
+    private String dirfio;
 
     @Column(name = "position",nullable = false)
     private String position;
+
+    @Column(name = "birth_date")
+    private LocalDate birthDate;
+
+    @Column(name = "description")
+    private String description;
 
     @ManyToMany
     @JoinTable(name = "film_directors",joinColumns =@JoinColumn(name = "directors_id" ) ,foreignKey = @ForeignKey(name = "FK_DIRECTORS_FILMS"),

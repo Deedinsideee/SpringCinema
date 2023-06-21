@@ -1,64 +1,147 @@
 <!DOCTYPE html>
-<html lang="en"
+<html lang="ru"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{layout}">
 <head>
     <meta charset="UTF-8">
-    <title>Фильмы</title>
-    <style>
-        .not-enough-book {
-            color: red;
-        }
-    </style>
+    <title>Книги библиотеки</title>
 </head>
 <body>
 <div layout:fragment="content">
-    <h1>Все фильмы кинотеатра</h1>
-    <div class="row" sec:authorize="isAuthenticated() && (hasRole('ADMIN') )">
-        <div class="col">
-            <a href="films/add"
-               class="btn btn-secondary"
-               role="button"
-               style="float: right"
-               aria-disabled="true">Добавить фильм
-            </a>
+    <div>
+        <hr class="hr"/>
+        <h3>Поиск Фильма</h3>
+        <form method="POST" th:action="@{/films/search}" th:object="${filmSearchForm}">
+            <div class="mt-0 row g-2">
+                <div class="col-md">
+                    <div class="form-floating">
+                        <input name="title" type="text" class="form-control" id="title" placeholder="Название фильма">
+                        <label for="title">Название фильма</label>
+                    </div>
+                </div>
+                <div class="col-md">
+                    <div class="form-floating">
+                        <input name="dirFIO" type="text" class="form-control" id="dirFIO" placeholder="ФИО участника">
+                        <label for="dirFIO">ФИО участника</label>
+                    </div>
+                </div>
+                <div class="col-md">
+                    <div class="form-floating">
+                        <select class="form-select" name="genre" id="genre">
+                            <option selected th:value="null">Выберете жанр из списка</option>
+                            <option th:each="genre : ${T(com.sbercourses.spring.Cinema.Model.Genre).values()}"
+                                    th:value="${genre}" th:text="${genre.getGenreTextDisplay()}"></option>
+                        </select>
+                        <label for="genre">Жанр</label>
+                    </div>
+                </div>
+                <div class="row g-2">
+                    <button type="submit" class="btn btn-secondary">Найти фильм</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <hr class="mt-3 hr"/>
+    <div class="mt-5">
+        <div class="row">
+            <div class="col">
+                <h2>Все фильмы </h2>
+            </div>
+            <div class="col">
+                <a sec:authorize="isAuthenticated() && hasRole('ADMIN')"
+                   th:href="@{/films/add}"
+                   class="btn btn-success"
+                   role="button"
+                   style="float: right"
+                   aria-disabled="true">Добавить фильм</a>
+            </div>
+            <div class="col">
+                <a sec:authorize="isAuthenticated() && hasRole('ADMIN')"
+                   th:href="@{/films/addDir}"
+                   class="btn btn-success"
+                   role="button"
+                   style="float: right"
+                   aria-disabled="true">Добавить участника к фильму</a>
+            </div>
         </div>
-        <div class="col" sec:authorize="isAuthenticated() && (hasRole('ADMIN') )">
-            <a href="films/addDir"
-               class="btn btn-secondary"
-               role="button"
-               style="float: right"
-               aria-disabled="true">Добавить участника к фильму
-            </a>
+        <div>
+            <table class="table table-hover mt-3">
+                <thead>
+                <tr>
+                    <th scope="col">Название</th>
+                    <th scope="col">Жанр</th>
+                    <th scope="col">Страна производства</th>
+                    <th scope="col">Год выхода</th>
+                    <th scope="col">Участник</th>
+                    <!--            <th scope="col">Режиссёр(ы)</th>-->
+                    <th scope="col"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="film : ${films}">
+                    <td>
+                        <a class="text-link text-blue" th:href="'/films/' + ${film.getId()}" th:text="${film.getTitle()}"></a>
+                    </td>
+
+                        <!--                                <a th:href="'/books/' + ${book.getId()}" ></a>-->
+                    <td th:text="${film.getGenre().getGenreTextDisplay()}">
+                    <td th:text="${film.getCounty()}">
+                    <td th:text="${film.getPremier_year()}">
+                    <td th:text="${film.getDirectors()}">
+                    <!--                    <td>-->
+                    <!--                        <a class="text-link text-blue" th:if="${book.getOnlineCopyPath()} != null" th:href="@{|/books/download?bookId=${book.id}|}">-->
+                    <!--                            <span>Скачать книгу</span>-->
+                    <!--                        </a>-->
+                    <!--                    </td>-->
+                    <td>
+                        <div sec:authorize="isAuthenticated() && (hasRole('ADMIN') || hasRole('REZ'))">
+                            <a class="btn btn-sm btn-outline-success" th:href="'/films/update/' + ${film.getId()}">Обновить</a>
+                            <a class="btn btn-sm btn-outline-danger" th:href="'/films/delete/' + ${film.getId()}">Удалить</a>
+
+                        </div>
+
+                    <a sec:authorize="isAuthenticated() && (!hasRole('ADMIN'))" class="btn btn-sm btn-outline-success"
+                       th:if="!${film.getCanBeRent()}"
+                       th:href="'/rent/film/' + ${film.getId()}">
+                        Арендовать фильм
+
+                    </a>
+                    <span sec:authorize="isAuthenticated() && (!hasRole('ADMIN'))"
+                            th:if="${film.getCanBeRent()}">Данный фильм уже арендован</span>
+
+
+                </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div>
+            <nav aria-label="Pagination" th:if="${films.getTotalPages() gt 0}">
+                <ul class="pagination justify-content-center font-weight-bold">
+                    <li class="page-item" th:classappend="${films.number eq 0} ? 'disabled'">
+                        <a class="page-link"
+                           th:href="@{/films?page={id}(id=${films.number lt 2 ? 1 : films.number})}"
+                           aria-label="Previous" title="Previous Page" data-toggle="tooltip">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    <li class="page-item" th:classappend="${i eq films.number + 1} ? 'active'"
+                        th:each="i : ${#numbers.sequence( 1, films.totalPages, 1)}">
+                        <a class="page-link" th:href="@{/films?page={id}(id=${i})}" th:text="${i}"
+                           th:title="${'Page '+ i}" data-toggle="tooltip"></a>
+                    </li>
+                    <li class="page-item" th:classappend="${films.number eq films.totalPages - 1} ? 'disabled'">
+                        <a class="page-link"
+                           th:href="@{/films?page={id}(id=${films.number + 2})}"
+                           aria-label="Next" title="Next Page" data-toggle="tooltip">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
         </div>
     </div>
-    <table class="table">
-        <thead>
-        <tr>
-            <th scope="col">Название</th>
-            <th scope="col">Жанр</th>
-            <th scope="col">Страна производства</th>
-            <th scope="col">Год выхода</th>
-            <th scope="col">Участник</th>
-            <!--            <th scope="col">Режиссёр(ы)</th>-->
-            <th scope="col"></th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="film : ${films}">
-            <td th:text="${film.getTitle()}">
-                <!--                                <a th:href="'/books/' + ${book.getId()}" ></a>-->
-            <td th:text="${film.getGenre().getGenreTextDisplay()}">
-            <td th:text="${film.getCounty()}">
-            <td th:text="${film.getPremier_year()}">
-            <td th:text="${film.getDirectors()}">
-            </td>
-
-        </tr>
-
-        </tbody>
-    </table>
 </div>
 </body>
 </html>
