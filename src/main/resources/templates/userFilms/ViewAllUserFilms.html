@@ -21,6 +21,7 @@
                 <th scope="col">Возвращена</th>
                 <th scope="col">Период аренды</th>
                 <th scope="col"></th>
+                <th scope="col"></th>
             </tr>
             </thead>
             <tbody>
@@ -39,6 +40,16 @@
                 </td>
                 <td th:text="${rent.getReturned()} ? 'Да' : 'Нет'"></td>
                 <td th:text="${rent.getRent_period()} + ' дней'"></td>
+
+                <td>
+                    <a
+                            th:if="!${rent.getReturned()}"
+                            th:href="'/films/view/' + ${rent.getFilmDTO().getId()}"
+                            class="btn btn-primary"
+                            role="button"
+                            aria-disabled="true">Просмотр</a>
+                </td>
+
                 <td>
                     <a
                             th:if="!${rent.getReturned()}"

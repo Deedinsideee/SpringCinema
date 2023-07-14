@@ -14,7 +14,8 @@ public interface SecurityConstants {
             "/v3/api-docs/**"
     );
     
-    List<String> Film_White_List = List.of("/films",
+    List<String> Film_White_List = List.of(
+            "/films",
             "/films/search",
             "/films/{id}");
     List<String> Films_Permisions_List = List.of(
@@ -24,10 +25,10 @@ public interface SecurityConstants {
             "/films/addDir"
     );
     
-    List<String> User_White_List = List.of("/login",
+    List<String> User_White_List = List.of(
+            "/login",
             "/users/registration",
             "/users/remember-password/",
-
             "/films",
             "/directors"
     );

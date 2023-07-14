@@ -29,6 +29,12 @@ public class Film extends GenericModel {
     @Column(name = "description")
     private String description;
 
+    @Column(name = "pathto")
+    private String pathto;
+
+    @Column(name = "countOfViews")
+    private Long countOfViews;
+
 
     @Column(name = "genre",nullable = false)
     @Enumerated()

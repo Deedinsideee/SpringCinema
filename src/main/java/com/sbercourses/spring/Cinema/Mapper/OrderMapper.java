@@ -42,8 +42,8 @@ public class OrderMapper extends GenericMapper<Order, OrderDTO> {
     protected void mapSpecificFields(OrderDTO source, Order destination) {
         if(!Objects.isNull(source.getFilmId()) && !Objects.isNull(source.getUserId()))
         {
-            destination.setFilmId(filmRepository.findById(source.getFilmId()).orElseThrow(() -> new NotFoundException("Книги не найдено")));
-            destination.setUserId(userRepository.findById(source.getUserId()).orElseThrow(() -> new NotFoundException("Книги не найдено")));
+            destination.setFilmId(filmRepository.findById(source.getFilmId()).orElseThrow(() -> new NotFoundException("Фильм не найден")));
+            destination.setUserId(userRepository.findById(source.getUserId()).orElseThrow(() -> new NotFoundException("Пользователь не найден")));
 
 
         }

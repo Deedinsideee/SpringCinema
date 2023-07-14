@@ -1,9 +1,10 @@
 <div xmlns:th="http://www.thymeleaf.org"
      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
      th:fragment="header">
+
     <nav class="navbar navbar-expand-lg" style="background-color: #e896a9">
         <div class="container-fluid">
-            <a class="navbar-brand" href="/" style="color: #ffffff">Онлайн Кинотеатр</a>
+            <a class="navbar-brand" href="/" style="color: #e1bdbd">Онлайн Кинотеатр</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
@@ -28,6 +29,12 @@
                     <a class="nav-link active" style="float: right" th:href="'/users/profile/' + ${#authentication.getPrincipal().getId()}">Профиль</a>
                 </div>
 
+
+
+
+
+
+
                 <form class="d-flex" sec:authorize="!isAuthenticated()">
                     <a href="/login" class="btn btn-primary" role="button" aria-disabled="true">Войти</a>
                 </form>
@@ -38,3 +45,4 @@
         </div>
     </nav>
 </div>
+

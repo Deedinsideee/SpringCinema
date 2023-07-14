@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layout}"
+      lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Просмотр фильма</title>
+    <style>
+
+        #video-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-top: 20px;
+            margin-left: -250px;
+
+        }
+
+        #video {
+            width: 80%;
+            max-width: 80%;
+
+            object-fit: cover;
+        }
+
+        .video-sidebar {
+            width: 40%;
+            max-width: 300px;
+        }
+
+        .video-sidebar a {
+            display: block;
+            margin-bottom: 10px;
+            text-decoration: none;
+        }
+
+        .video-sidebar img {
+            width: 100%;
+        }
+
+        .video-info {
+
+            margin-left: -250px;
+            margin-top: 20px;
+        }
+
+        .video-info p {
+            margin-bottom: 10px;
+
+        }
+
+        .video-title {
+            flex: 1;
+        }
+
+        .rating-form {
+            margin-left: 20px;
+        }
+
+        .video-sidebar {
+            width: 80%;
+            max-width: 300px;
+            background-color: #f2f2f2;
+            padding: 10px;
+        }
+
+        .video-sidebar h3 {
+            margin-top: 0;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .video-sidebar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .video-sidebar li {
+            margin-bottom: 10px;
+        }
+
+        .video-sidebar li a {
+            display: block;
+            padding: 5px;
+            border-radius: 5px;
+            text-decoration: none;
+            color: #333;
+            background-color: #fff;
+            transition: background-color 0.3s ease;
+        }
+
+        .video-sidebar li a:hover {
+            background-color: #e6e6e6;
+        }
+
+        .film-info {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .view-count {
+            margin-left: 10px;
+        }
+
+
+    </style>
+</head>
+<body>
+<div layout:fragment="content">
+
+    <div id="video-container">
+        <video id="video" controls autoplay></video>
+
+        <div class="video-sidebar">
+            <h3>Похожие видео</h3>
+            <ul>
+                <li th:each="film : ${films}">
+                    <div class="film-info">
+                        <a th:href="@{'/films/' + ${film.id}}" th:text="${film.title}"></a>
+                        <h5 class="view-count" th:text="${film.getCountOfViews()} + ' Просмотров'"></h5>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+
+    <div class="video-info">
+        <h2 th:text="${film.getTitle()}"></h2>
+        <h2 th:if="${userRating != 0}" th:text="'Ваша оценка ' + ${userRating}"></h2>
+        <h5 th:text="${film.getCountOfViews()} + ' Просмотров'"></h5>
+        <h5 th:text="' Дата выхода '+ ${film.getPremier_year()} "></h5>
+        <h5 th:text="' Средняя оценка '+ ${rating} "></h5>
+        <h5>Описание:</h5>
+        <p th:text="${film.getDescription()}"></p>
+        <div class="rating-form" th:if="${userRating == 0}" >
+            <h3>Оценка видео</h3>
+            <form method="POST" th:action="@{/films/rate/{id}(id=${film.getId()})}" th:object="${GradeForm}">
+                <input type="hidden" name="rating" value="">
+                <label for="rating">Выберите оценку:</label>
+                <select name="gradeOfUser" id="rating">
+                    <option value="1">1 звезда</option>
+                    <option value="2">2 звезды</option>
+                    <option value="3">3 звезды</option>
+                    <option value="4">4 звезды</option>
+                    <option value="5">5 звезд</option>
+                </select>
+                <button type="submit">Оценить</button>
+            </form>
+
+        </div>
+
+
+    </div>
+
+
+
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var videoUrl = /*[[${videoUrl}]]*/ '';
+        console.log(videoUrl);
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var videoElement = document.getElementById('video');
+            var player = new shaka.Player(videoElement);
+
+            player.load(videoUrl).then(function () {
+                console.log('Видео успешно загружено');
+            }).catch(function (error) {
+                console.error('Ошибка при загрузке видео:', error);
+            });
+        });
+        /*]]>*/
+    </script>
+</div>
+</body>
+</html>

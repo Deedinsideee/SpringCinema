@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ru"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Добавить Фильм</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <h3 class="mt-3 mb-3">Добавить участника</h3>
+    <form style="max-width: 50vw" method="POST" th:action="@{/directors/add}" th:object="${dirForm}">
+        <div class="mb-3">
+            <label for="dirfio" class="form-label">ФИО</label>
+            <!--            Название поля инпута должно строго соответствовать названию поля класса (DTO)-->
+            <input name="dirfio" type="text" class="form-control" id="dirfio">
+        </div>
+        <div class="mb-3">
+            <label for="position" class="form-label">Позиция</label>
+            <input name="position" type="text" class="form-control" id="position">
+        </div>
+        <button type="submit" class="btn btn-primary" onclick="validateForm()">Добавить</button>
+        <button type="button" class="btn btn-secondary" onclick="window.history.back()">Назад</button>
+    </form>
+</div>
+</body>
+</html>

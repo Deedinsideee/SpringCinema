@@ -20,6 +20,8 @@ public class FilmDTO extends GenericDTO {
     private LocalDate premier_year;
     private String county;
     private Genre genre;
+    private String pathto;
+    private Long countOfViews;
     List<Long> directors_id;
     private String directors;
     List<DirectorDTO> dirInfo;

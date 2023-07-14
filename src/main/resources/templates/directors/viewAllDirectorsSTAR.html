@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Фильмы</title>
+    <style>
+        .not-enough-book {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+<div layout:fragment="content">
+    <h1>Все режиссеры </h1>
+    <div class="row" sec:authorize="isAuthenticated() && (hasRole('ADMIN') )">
+        <div class="col">
+            <a href="directors/add"
+               class="btn btn-secondary"
+               role="button"
+               style="float: right"
+               aria-disabled="true">Добавить режиссёра
+            </a>
+        </div>
+    </div>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">ФИО</th>
+            <th scope="col">Позиция</th>
+
+
+            <!--            <th scope="col">Режиссёр(ы)</th>-->
+            <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="director : ${directors}">
+            <td th:text="${director.getDirectors_fio()}">
+                <!--                                <a th:href="'/books/' + ${book.getId()}" ></a>-->
+            <td th:text="${director.getPosition()}">
+
+            </td>
+
+        </tr>
+
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

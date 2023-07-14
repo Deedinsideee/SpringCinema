@@ -3,11 +3,13 @@ package com.sbercourses.spring.Cinema.service;
 import com.sbercourses.spring.Cinema.Mapper.FilmMapper;
 import com.sbercourses.spring.Cinema.Model.Directors;
 import com.sbercourses.spring.Cinema.Model.Film;
+import com.sbercourses.spring.Cinema.Model.Grade;
 import com.sbercourses.spring.Cinema.Model.Order;
 import com.sbercourses.spring.Cinema.dto.FilmDTO;
 import com.sbercourses.spring.Cinema.dto.FilmSearchDTO;
 import com.sbercourses.spring.Cinema.repository.DirectorRepository;
 import com.sbercourses.spring.Cinema.repository.FilmRepository;
+import com.sbercourses.spring.Cinema.repository.GradeRepository;
 import com.sbercourses.spring.Cinema.repository.OrderRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -15,7 +17,6 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -27,15 +28,18 @@ public class FilmService extends GenericService<Film, FilmDTO>{
     private final DirectorRepository directorRepository ;
     private final OrderRepository orderRepository;
 
+    private final GradeRepository gradeRepository;
+
     public FilmService(
             FilmMapper filmMapper,
-            DirectorService directorService, FilmRepository filmRepository, DirectorRepository directorRepository, OrderRepository orderRepository) {
+            DirectorService directorService, FilmRepository filmRepository, DirectorRepository directorRepository, OrderRepository orderRepository, GradeRepository gradeRepository) {
         super( filmRepository,filmMapper);
         this.directorService = directorService;
         this.filmRepository = filmRepository;
         this.directorRepository = directorRepository;
         this.orderRepository = orderRepository;
 
+        this.gradeRepository = gradeRepository;
     }
 
 
@@ -45,6 +49,15 @@ public class FilmService extends GenericService<Film, FilmDTO>{
         List<FilmDTO> result = mapper.toDTOs(films.getContent());
         return new PageImpl<>(result, pageable, films.getTotalElements());
     }
+
+    @Override
+    public FilmDTO create(FilmDTO newObject)
+    {
+        newObject.setCountOfViews(0L);
+        return mapper.toDTO(repository.save(mapper.toEntity(newObject)));
+    }
+
+
 
     public Page<FilmDTO> search(FilmSearchDTO filmSearchDTO, Pageable pageable)
     {
@@ -95,18 +108,25 @@ public class FilmService extends GenericService<Film, FilmDTO>{
     {
         Film a = repository.getOne(id);
         List<Directors> directors = directorRepository.findAll();
+        List<Grade>  grades = gradeRepository.findGradeByFilmId(filmRepository.getOne(id));
+        gradeRepository.deleteAll(grades);
+
+
+
         List<Order> orders= orderRepository.getOrdersByFilmIdId(id);
             directors.forEach(director -> {
                 List<Film> films = director.getFilms();
                 films.removeIf(film -> film.getId() == a.getId());
             });
+
             orderRepository.deleteAll(orders);
             directorRepository.saveAll(directors);
             repository.deleteById(id);
     }
 
 
+    public List<FilmDTO> getAllByGenre(FilmDTO filmDTO) {
 
-
-
+        return mapper.toDTOs(filmRepository.getTop6FilmsByGenreOrderByCountOfViews(filmDTO.getGenre()));
+    }
 }

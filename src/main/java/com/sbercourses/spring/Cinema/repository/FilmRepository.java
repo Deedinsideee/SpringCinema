@@ -1,11 +1,14 @@
 package com.sbercourses.spring.Cinema.repository;
 
 import com.sbercourses.spring.Cinema.Model.Film;
+import com.sbercourses.spring.Cinema.Model.Genre;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public interface FilmRepository extends GenericRepository<Film> {
@@ -38,6 +41,7 @@ public interface FilmRepository extends GenericRepository<Film> {
 
 
 
+    List<Film> getTop6FilmsByGenreOrderByCountOfViews(Genre genre);
 
 
 }

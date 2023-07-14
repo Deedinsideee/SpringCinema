@@ -73,11 +73,14 @@
             </div>
         </form>
         <hr class="hr"/>
-        <div class="mt-2">
-            <a sec:authorize="!hasRole('ADMIN')" class="btn btn-primary"
-               th:href="'/rent/film/' + ${film.getId()}">Арендовать фильм</a>
-            <button type="button" class="btn btn-secondary" onclick="window.history.back()">Назад</button>
-        </div>
+        <a sec:authorize="isAuthenticated() && (!hasRole('ADMIN'))" class="btn btn-sm btn-outline-success"
+           th:if="${film.getCanBeRent()}"
+           th:href="'/rent/film/' + ${film.getId()}">
+            Арендовать фильм
+
+        </a>
+        <a  class="btn btn-sm btn-outline-info" sec:authorize="isAuthenticated() && (!hasRole('ADMIN'))"
+              th:if="!${film.getCanBeRent()}"     th:href="'/films/view/' + ${film.getId()}" >Просмотр фильма</a>
     </div>
 </form>
 </body>
